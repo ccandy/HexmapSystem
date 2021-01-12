@@ -62,10 +62,5 @@ public class HexMesh : MonoBehaviour
         _triangles.Add(indexCount + 1);
         _triangles.Add(indexCount + 2);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
