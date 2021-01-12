@@ -4,9 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexMesh : MonoBehaviour
 {
-    Mesh _hexMesh;
-    List<Vector3> _vertics;
-    List<int> _triangles;
+    private Mesh _hexMesh;
+    private List<Vector3> _vertics;
+    private List<int> _triangles;
+    private MeshCollider _hexCollider;
+
+    private List<Color> _colors;
 
     // Start is called before the first frame update
     void Start()
@@ -14,9 +17,13 @@ public class HexMesh : MonoBehaviour
         _hexMesh = new Mesh();
         _vertics = new List<Vector3>();
         _triangles = new List<int>();
+        _colors = new List<Color>();
 
         MeshFilter _meshFilter = gameObject.GetComponent<MeshFilter>();
         _meshFilter.mesh = _hexMesh;
+
+        _hexCollider = gameObject.AddComponent<MeshCollider>();
+
     }
 
 
@@ -25,6 +32,7 @@ public class HexMesh : MonoBehaviour
         _hexMesh.Clear();
         _vertics.Clear();
         _triangles.Clear();
+        _colors.Clear();
 
         for (int n = 0; n < cells.Length; n++)
         {
@@ -33,7 +41,10 @@ public class HexMesh : MonoBehaviour
         }
         _hexMesh.vertices = _vertics.ToArray();
         _hexMesh.triangles = _triangles.ToArray();
+        _hexMesh.colors = _colors.ToArray();
+
         _hexMesh.RecalculateNormals();
+        _hexCollider.sharedMesh = _hexMesh;
 
     }
 
@@ -46,6 +57,7 @@ public class HexMesh : MonoBehaviour
             Vector3 v3 = v1 + HexMatrics.Corners[n+1];
 
             AddTriangle(v1, v2, v3);
+            AddTriangleColor(cell.CellColor);
         }
             
     }
@@ -63,30 +75,14 @@ public class HexMesh : MonoBehaviour
         _triangles.Add(indexCount + 2);
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            HandleInput();
-        }
-    }
+    
 
-    private void HandleInput()
+    private void AddTriangleColor(Color color)
     {
-        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if(Physics.Raycast(inputRay, out hit))
-        {
-            TouchCell(hit.point);
-        }
+        _colors.Add(color);
+        _colors.Add(color);
+        _colors.Add(color);
     }
-
-    private void TouchCell(Vector3 pos)
-    {
-        pos = transform.InverseTransformPoint(pos);
-        Debug.Log("touched at " + pos);
-    }
-
 
 
 

@@ -63,6 +63,43 @@ public class HexCoord
         return new HexCoord(x - z/2, z);
     }
 
+    public static HexCoord FromPosition(Vector3 pos)
+    {
+        float x = pos.x / (HexMatrics.InnerRad * 2f);
+        float y = -x;
+
+        float offset = pos.z / (HexMatrics.OutterRad * 3f);
+        x -= offset;
+        y -= offset;
+
+        int iX = Mathf.RoundToInt(x);
+        int iY = Mathf.RoundToInt(y);
+        int iZ = Mathf.RoundToInt(-x - y);
+
+        if (iX + iY + iZ != 0)
+        {
+            Debug.LogWarning("rounding error!");
+
+            float dX = Mathf.Abs(x - iX);
+            float dY = Mathf.Abs(y - iY);
+            float dZ = Mathf.Abs(-x - y - iZ);
+
+            if (dX > dY && dX > dZ)
+            {
+                iX = -iY - iZ;
+            }
+            else if (dZ > dY)
+            {
+                iZ = -iX - iY;
+            }
+
+        }
+
+        return new HexCoord(iX, iZ);
+
+    }
+
+
 
 
 
