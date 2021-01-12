@@ -63,17 +63,19 @@ public class HexGrid : MonoBehaviour
         _cells[i] = _cell;
         _cell.transform.SetParent(transform);
         _cell.transform.localPosition = pos;
-        CreateTex(pos.x, pos.z, i);
 
-    }
+        _cell.HexCoord = HexCoord.FromOffsetCoord(x, z);
 
-    private void CreateTex(float x, float z, int i)
-    {
+        
+
         Text _tex = Instantiate<Text>(HexCellTex);
         _tex.rectTransform.SetParent(_hexCanvas.transform, false);
-        _tex.rectTransform.anchoredPosition = new Vector2(x, z);
-        _tex.text = "Cell " + i + " Pos " + x + "," + z;
+        _tex.rectTransform.anchoredPosition = new Vector2(pos.x, pos.z);
+        _tex.text = "Cell " + i + _cell.HexCoord.ToString();
+
     }
+
+    
 
 
 }

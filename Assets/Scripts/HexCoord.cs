@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class HexCoord
 {
-    private int _x, _y, _z;
+    [SerializeField]
+    private int _x, _z;
 
+    private int _y;
     public int X
     {
         set
@@ -30,20 +32,35 @@ public class HexCoord
         }
     }
 
+    public int Y
+    {
+        get
+        {
+            return _y;
+        }
+    }
+
     public HexCoord(int x, int z)
     {
         _x = x;
         _z = z;
+        _y = -_x - _z;
     }
 
     public override string ToString()
     {
-        return "X: " + _x + ", Z: " + _z;
+        return "X: " + X.ToString() + ", Y:" + Y.ToString() + ", Z: " + Z.ToString();
+    }
+
+    public string ToStringOnSeparateLines()
+    {
+       return X.ToString() + "\n" + Y.ToString() + "\n" + Z.ToString();
+
     }
 
     public static HexCoord FromOffsetCoord(int x, int z)
     {
-        return new HexCoord(x, z);
+        return new HexCoord(x - z/2, z);
     }
 
 

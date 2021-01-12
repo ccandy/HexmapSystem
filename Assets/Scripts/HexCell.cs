@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class HexCell : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    private HexCoord _hexCoord;
+    public HexCoord HexCoord
+    {
+        set
+        {
+            _hexCoord = value;
+        }
+        get
+        {
+            return _hexCoord;
+        }
+    }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

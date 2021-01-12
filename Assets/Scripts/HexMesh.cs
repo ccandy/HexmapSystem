@@ -62,5 +62,32 @@ public class HexMesh : MonoBehaviour
         _triangles.Add(indexCount + 1);
         _triangles.Add(indexCount + 2);
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            HandleInput();
+        }
+    }
+
+    private void HandleInput()
+    {
+        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if(Physics.Raycast(inputRay, out hit))
+        {
+            TouchCell(hit.point);
+        }
+    }
+
+    private void TouchCell(Vector3 pos)
+    {
+        pos = transform.InverseTransformPoint(pos);
+        Debug.Log("touched at " + pos);
+    }
+
+
+
+
 }
