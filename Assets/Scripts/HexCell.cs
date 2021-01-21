@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HexCell : MonoBehaviour
 {
+    
+    [SerializeField]
+    HexCell[] NeiborCells =new HexCell[6];
 
 
     private Color _cellColor;
@@ -29,5 +32,23 @@ public class HexCell : MonoBehaviour
         {
             return _hexCoord;
         }
-    }    
+    }
+    
+    public HexCell GetNeiborCell(HexDirection dir)
+    {
+        int d = (int)dir;
+        return NeiborCells[d];
+    }
+
+    public void SetNeiborCell(HexCell c, HexDirection dir)
+    {
+        int d = (int)dir;
+        NeiborCells[d] = c;
+
+        HexDirection oppsiteDir = dir.Oppsite();
+        c.NeiborCells[(int)oppsiteDir] = this;
+
+
+    }
+
 }

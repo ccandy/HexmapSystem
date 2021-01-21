@@ -17,7 +17,6 @@ public static class HexMatrics
         new Vector3(-InnerRad, 0, 0.5f * OutterRad),
         new Vector3(0,0, OutterRad)
     };
-
-
-
 }
+
+
