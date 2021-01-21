@@ -29,12 +29,5 @@ public class HexCell : MonoBehaviour
         {
             return _hexCoord;
         }
-    }
-
-    void Start()
-    {
-        
-    }
-
-    
+    }    
 }

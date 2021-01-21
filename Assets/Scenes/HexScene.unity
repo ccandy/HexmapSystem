@@ -585,6 +585,8 @@ MonoBehaviour:
     type: 3}
   HexCellTex: {fileID: 521761928475888019, guid: 33f483666867c1b48add7a265422e85e,
     type: 3}
+  DefaultColor: {r: 1, g: 1, b: 1, a: 1}
+  TouchColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &1817508561
 Transform:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ public class HexGrid : MonoBehaviour
     public Text HexCellTex;
 
     public Color DefaultColor = Color.white;
-    public Color TouchColor = Color.magenta;
+    public Color TouchColor = Color.red;
 
     void Awake()
     {
@@ -43,9 +43,9 @@ public class HexGrid : MonoBehaviour
     void Start()
     {
         int i = 0;
-        for (int x = 0; x < _width; x++)
+        for (int z = 0; z < _width; z++)
         {
-            for (int z = 0; z < _height; z++)
+            for (int x = 0; x < _height; x++)
             {
                 CreateCell(x, z, i++);
             }
@@ -73,7 +73,7 @@ public class HexGrid : MonoBehaviour
         Text _tex = Instantiate<Text>(HexCellTex);
         _tex.rectTransform.SetParent(_hexCanvas.transform, false);
         _tex.rectTransform.anchoredPosition = new Vector2(pos.x, pos.z);
-        _tex.text = "Cell " + i + _cell.HexCoord.ToString();
+        _tex.text = _cell.HexCoord.ToString();
 
     }
 
@@ -105,7 +105,7 @@ public class HexGrid : MonoBehaviour
         cell.CellColor = TouchColor;
         _hexMesh.Triangulate(_cells);
 
-        Debug.Log("touched at " + pos);
+        Debug.Log("touched at " + coord.X + "," + coord.Y);
     }
 
 
