@@ -58,27 +58,44 @@ public class HexMesh : MonoBehaviour
             AddTriangle(center, v1, v2);
             AddTriangleColor(cell.CellColor);
 
-            Vector3 v3 = center + HexMatrics.GetFirstCorner(d);
-            Vector3 v4 = center + HexMatrics.GetSecondCorner(d);
 
-            AddQuad(v1, v2, v3, v4);
+            if(d <= HexDirection.SE)
+            {
+                TriangulateConnection(v1, v2, d, cell);
+            }
 
+            
+            
 
-
-
-            HexCell prevCell = cell.GetNeiborCell(d.Prev()) ?? cell;
-            HexCell neiborCell = cell.GetNeiborCell(d) ?? cell;
-            HexCell nextCell = cell.GetNeiborCell(d.Next()) ?? cell;
-
-            Color edgeColor1 = (cell.CellColor + neiborCell.CellColor + prevCell.CellColor) /3;
-            Color edgeColor2 = (cell.CellColor + neiborCell.CellColor + nextCell.CellColor) / 3;
-
-            AddQuadColor(cell.CellColor, cell.CellColor, edgeColor1, edgeColor2);
         }
     }
 
+    private void TriangulateConnection(Vector3 v1, Vector3 v2, HexDirection dir, HexCell cell)
+    {
 
-    
+        if(cell.GetNeiborCell(dir) == null)
+        {
+            return;
+        }
+
+        Vector3 birdge = HexMatrics.GetBridge(dir);
+
+        Vector3 v3 = v1 + birdge;
+        Vector3 v4 = v2 + birdge;
+        AddQuad(v1, v2, v3, v4);
+
+        HexCell neiborCell = cell.GetNeiborCell(dir) ?? cell;
+        AddQuadColor(cell.CellColor, neiborCell.CellColor);
+
+        HexCell nextNeighbor = cell.GetNeiborCell(dir.Next());
+        if(dir <= HexDirection.E && nextNeighbor != null)
+        {
+            AddTriangle(v2, v4, v2 + HexMatrics.GetBridge(dir.Next()));
+            AddTriangleColor(cell.CellColor, neiborCell.CellColor, nextNeighbor.CellColor);
+        }
+
+    }
+
 
     private void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
     {
@@ -131,5 +148,16 @@ public class HexMesh : MonoBehaviour
         _colors.Add(c3);
         _colors.Add(c4);
     }
+
+    private void AddQuadColor(Color c1, Color c2)
+    {
+        _colors.Add(c1);
+        _colors.Add(c1);
+
+        _colors.Add(c2);
+        _colors.Add(c2);
+
+    }
+
 
 }

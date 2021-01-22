@@ -41,6 +41,15 @@ public static class HexMatrics
         return Corners[(int)dir + 1] * SoildFactor;
     }
 
+    public static Vector3 GetBridge(HexDirection dir)
+    {
+        Vector3 v1 = Corners[(int)dir];
+        Vector3 v2 = Corners[(int)dir + 1];
+
+        Vector3 bridge = (v1 + v2) * BlendFactor;
+
+        return bridge;
+    }
 
 
 }
