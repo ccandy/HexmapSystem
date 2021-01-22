@@ -77,7 +77,7 @@ public class HexGrid : MonoBehaviour
         _cell.transform.localPosition = pos;
         _cell.CellColor = DefaultColor;
         _cell.HexCoord = HexCoord.FromOffsetCoord(x, z);
-
+        _cell.name = "cell" + _cell.HexCoord.X + "," + _cell.HexCoord.Z;
 
         return _cell;
     }
@@ -98,6 +98,27 @@ public class HexGrid : MonoBehaviour
         {
             c.SetNeiborCell(_cells[i - 1], HexDirection.W);
         }
+
+        if(z > 0)
+        {
+            if((z & 1) == 0)
+            {
+                c.SetNeiborCell(_cells[i - _width], HexDirection.SE);
+                if(x > 0)
+                {
+                    c.SetNeiborCell(_cells[i - _width - 1], HexDirection.SW);
+                }
+            }
+            else
+            {
+                c.SetNeiborCell(_cells[i - _width], HexDirection.SW);
+                if (x < _width - 1)
+                {
+                    c.SetNeiborCell(_cells[i - _width + 1], HexDirection.SE);
+                }
+            }
+        }
+
     }
 
     private void Update()

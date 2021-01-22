@@ -49,7 +49,7 @@ public class HexCoord
 
     public override string ToString()
     {
-        return "X: " + X.ToString() + ", Y:" + Y.ToString() + ", Z: " + Z.ToString();
+        return "X: " + X.ToString() + ", Z: " + Z.ToString();
     }
 
     public string ToStringOnSeparateLines()
