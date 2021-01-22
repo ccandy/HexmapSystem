@@ -83,8 +83,23 @@ public class HexMesh : MonoBehaviour
         _triangles.Add(indexCount + 2);
     }
 
-    
+    private void AddQuad(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
+    {
+        int indexCount = _vertics.Count;
 
+        _vertics.Add(v1);
+        _vertics.Add(v2);
+        _vertics.Add(v3);
+        _vertics.Add(v4);
+
+        _triangles.Add(indexCount);
+        _triangles.Add(indexCount + 2);
+        _triangles.Add(indexCount + 1);
+        _triangles.Add(indexCount + 1);
+        _triangles.Add(indexCount + 2);
+        _triangles.Add(indexCount + 3);
+
+    }
     private void AddTriangleColor(Color color)
     {
         _colors.Add(color);
@@ -99,6 +114,12 @@ public class HexMesh : MonoBehaviour
         _colors.Add(c3);
     }
 
-
+    private void AddQuad(Color c1, Color c2, Color c3, Color c4)
+    {
+        _colors.Add(c1);
+        _colors.Add(c2);
+        _colors.Add(c3);
+        _colors.Add(c4);
+    }
 
 }

@@ -38,7 +38,7 @@ public static class HexMatrics
 
     public static Vector3 GetSecondSoildCorner(HexDirection dir)
     {
-        return Corners[(int)dir] * SoildFactor;
+        return Corners[(int)dir + 1] * SoildFactor;
     }
 
 
