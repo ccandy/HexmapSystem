@@ -57,11 +57,19 @@ public class HexMesh : MonoBehaviour
             Vector3 v3 = v1 + HexMatrics.GetSecondCorner(d);
 
             AddTriangle(v1, v2, v3);
-            AddTriangleColor(cell.CellColor);
-        }
 
+            HexCell neiborCell = cell.GetNeiborCell(d);
+            if(neiborCell != null)
+            {
+                AddTriangleColor(cell.CellColor, neiborCell.CellColor, neiborCell.CellColor);
+            }
+            else
+            {
+                AddTriangleColor(cell.CellColor);
+            }
 
             
+        }
     }
 
     private void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
@@ -84,6 +92,13 @@ public class HexMesh : MonoBehaviour
         _colors.Add(color);
         _colors.Add(color);
         _colors.Add(color);
+    }
+
+    private void AddTriangleColor(Color c1, Color c2, Color c3)
+    {
+        _colors.Add(c1);
+        _colors.Add(c2);
+        _colors.Add(c3);
     }
 
 
