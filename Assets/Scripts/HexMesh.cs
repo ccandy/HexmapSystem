@@ -53,8 +53,8 @@ public class HexMesh : MonoBehaviour
         Vector3 v1 = cell.transform.localPosition;
         for(HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
         {
-            Vector3 v2 = v1 + HexMatrics.GetFirstCorner(d);
-            Vector3 v3 = v1 + HexMatrics.GetSecondCorner(d);
+            Vector3 v2 = v1 + HexMatrics.GetFirstSoildCorner(d);
+            Vector3 v3 = v1 + HexMatrics.GetSecondSoildCorner(d);
 
             AddTriangle(v1, v2, v3);
 
