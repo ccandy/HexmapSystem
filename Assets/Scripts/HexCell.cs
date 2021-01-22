@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class HexCell : MonoBehaviour
 {
-    
+
     [SerializeField]
-    HexCell[] NeiborCells =new HexCell[6];
+    HexCell[] NeiborCells;
 
 
     private Color _cellColor;

@@ -43,3 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817fdcdc1ca7fa14b86ae08e36568fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NeiborCells:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

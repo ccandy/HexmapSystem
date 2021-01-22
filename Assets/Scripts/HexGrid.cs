@@ -23,14 +23,14 @@ public class HexGrid : MonoBehaviour
 
     void Awake()
     {
-        if(HexCellPref == null)
+        if (HexCellPref == null)
         {
             Debug.LogError("HexCell Pref is null");
         }
 
         _cells = new HexCell[_width * _height];
         _hexCanvas = gameObject.GetComponentInChildren<Canvas>();
-        if(_hexCanvas == null)
+        if (_hexCanvas == null)
         {
             Debug.LogError("Canvas is null");
         }
@@ -53,14 +53,24 @@ public class HexGrid : MonoBehaviour
 
         _hexMesh.Triangulate(_cells);
     }
-    
+
     private void CreateCell(int x, int z, int i)
     {
         Vector3 pos = Vector3.zero;
-        pos.x = (x + z * 0.5f - z/2)* HexMatrics.InnerRad * 2;
+        pos.x = (x + z * 0.5f - z / 2) * HexMatrics.InnerRad * 2;
         pos.y = 0;
-        pos.z = z * HexMatrics.OutterRad * 1.5f;
+        pos.z = z * HexMatrics.OutterRad * 1.5f;    
 
+
+        HexCell _cell = MakeCell(x, z, i, pos);
+        ConnectCells(_cell, x, z, i);
+        MakeText(_cell, pos);
+
+    }
+
+
+    private HexCell MakeCell(int x, int z, int i, Vector3 pos)
+    {
         HexCell _cell = Instantiate<HexCell>(HexCellPref);
         _cells[i] = _cell;
         _cell.transform.SetParent(transform);
@@ -68,13 +78,26 @@ public class HexGrid : MonoBehaviour
         _cell.CellColor = DefaultColor;
         _cell.HexCoord = HexCoord.FromOffsetCoord(x, z);
 
-        
 
+        return _cell;
+    }
+
+    private Text MakeText(HexCell c, Vector3 pos) 
+    {
         Text _tex = Instantiate<Text>(HexCellTex);
         _tex.rectTransform.SetParent(_hexCanvas.transform, false);
         _tex.rectTransform.anchoredPosition = new Vector2(pos.x, pos.z);
-        _tex.text = _cell.HexCoord.ToString();
+        _tex.text = c.HexCoord.ToString();
 
+        return _tex;
+    }
+
+    private void ConnectCells(HexCell c, int x, int z, int i)
+    {
+        if (x > 0)
+        {
+            c.SetNeiborCell(_cells[i - 1], HexDirection.W);
+        }
     }
 
     private void Update()
