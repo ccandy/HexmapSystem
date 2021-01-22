@@ -50,25 +50,35 @@ public class HexMesh : MonoBehaviour
 
     private void TriangulateCell(HexCell cell)
     {
-        Vector3 v1 = cell.transform.localPosition;
+        Vector3 center = cell.transform.localPosition;
         for(HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
         {
-            Vector3 v2 = v1 + HexMatrics.GetFirstSoildCorner(d);
-            Vector3 v3 = v1 + HexMatrics.GetSecondSoildCorner(d);
+            Vector3 v1 = center + HexMatrics.GetFirstSoildCorner(d);
+            Vector3 v2 = center + HexMatrics.GetSecondSoildCorner(d);
+            AddTriangle(center, v1, v2);
+            AddTriangleColor(cell.CellColor);
 
-            AddTriangle(v1, v2, v3);
+            Vector3 v3 = center + HexMatrics.GetFirstCorner(d);
+            Vector3 v4 = center + HexMatrics.GetSecondCorner(d);
+
+            AddQuad(v1, v2, v3, v4);
+
+
 
 
             HexCell prevCell = cell.GetNeiborCell(d.Prev()) ?? cell;
             HexCell neiborCell = cell.GetNeiborCell(d) ?? cell;
             HexCell nextCell = cell.GetNeiborCell(d.Next()) ?? cell;
 
-            Color edgeColor = (prevCell.CellColor + nextCell.CellColor + neiborCell.CellColor) /3;
+            Color edgeColor1 = (cell.CellColor + neiborCell.CellColor + prevCell.CellColor) /3;
+            Color edgeColor2 = (cell.CellColor + neiborCell.CellColor + nextCell.CellColor) / 3;
 
-
-            AddTriangleColor(cell.CellColor, edgeColor, edgeColor);
+            AddQuadColor(cell.CellColor, cell.CellColor, edgeColor1, edgeColor2);
         }
     }
+
+
+    
 
     private void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
     {
@@ -114,7 +124,7 @@ public class HexMesh : MonoBehaviour
         _colors.Add(c3);
     }
 
-    private void AddQuad(Color c1, Color c2, Color c3, Color c4)
+    private void AddQuadColor(Color c1, Color c2, Color c3, Color c4)
     {
         _colors.Add(c1);
         _colors.Add(c2);
