@@ -59,9 +59,9 @@ public class HexMesh : MonoBehaviour
             AddTriangle(v1, v2, v3);
 
 
-            HexCell prevCell = cell.GetNeiborCell(d.Prev());
+            HexCell prevCell = cell.GetNeiborCell(d.Prev()) ?? cell;
             HexCell neiborCell = cell.GetNeiborCell(d) ?? cell;
-            HexCell nextCell = cell.GetNeiborCell(d.Next());
+            HexCell nextCell = cell.GetNeiborCell(d.Next()) ?? cell;
 
             Color edgeColor = (prevCell.CellColor + nextCell.CellColor + neiborCell.CellColor) /3;
 
