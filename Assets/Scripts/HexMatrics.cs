@@ -17,6 +17,16 @@ public static class HexMatrics
         new Vector3(-InnerRad, 0, 0.5f * OutterRad),
         new Vector3(0,0, OutterRad)
     };
+
+    public static Vector3 GetFirstCorner(HexDirection dir)
+    {
+        return Corners[(int)dir];
+    }
+
+    public static Vector3 GetSecondCorner(HexDirection dir)
+    {
+        return Corners[(int)dir + 1];
+    }
 }
 
 

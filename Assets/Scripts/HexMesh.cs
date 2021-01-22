@@ -51,14 +51,16 @@ public class HexMesh : MonoBehaviour
     private void TriangulateCell(HexCell cell)
     {
         Vector3 v1 = cell.transform.localPosition;
-        for(int n =0; n < 6; n++)
+        for(HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
         {
-            Vector3 v2 = v1 + HexMatrics.Corners[n];
-            Vector3 v3 = v1 + HexMatrics.Corners[n+1];
+            Vector3 v2 = v1 + HexMatrics.GetFirstCorner(d);
+            Vector3 v3 = v1 + HexMatrics.GetSecondCorner(d);
 
             AddTriangle(v1, v2, v3);
             AddTriangleColor(cell.CellColor);
         }
+
+
             
     }
 

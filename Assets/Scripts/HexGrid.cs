@@ -118,7 +118,6 @@ public class HexGrid : MonoBehaviour
                 }
             }
         }
-
     }
 
     private void Update()
@@ -151,7 +150,4 @@ public class HexGrid : MonoBehaviour
 
         Debug.Log("touched at " + coord.X + "," + coord.Y);
     }
-
-
-
 }
