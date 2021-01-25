@@ -8,6 +8,22 @@ public class HexCell : MonoBehaviour
     [SerializeField]
     HexCell[] NeiborCells;
 
+    private int _elevation;
+    public int Elevation
+    {
+        set
+        {
+            _elevation = value;
+            Vector3 pos = transform.localPosition;
+            pos.y = _elevation * HexMatrics.ElevationStep;
+            transform.localPosition = pos;
+        }
+        get
+        {
+            return _elevation;
+        }
+    }
+
 
     private Color _cellColor;
     public Color CellColor
@@ -47,8 +63,6 @@ public class HexCell : MonoBehaviour
 
         HexDirection oppsiteDir = dir.Oppsite();
         c.NeiborCells[(int)oppsiteDir] = this;
-
-
     }
 
 }

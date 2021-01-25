@@ -78,7 +78,7 @@ public class HexGrid : MonoBehaviour
         _cell.CellColor = DefaultColor;
         _cell.HexCoord = HexCoord.FromOffsetCoord(x, z);
         _cell.name = "cell" + _cell.HexCoord.X + "," + _cell.HexCoord.Z;
-
+        _cell.Elevation = Random.Range(1, 5);
         return _cell;
     }
 
@@ -140,14 +140,35 @@ public class HexGrid : MonoBehaviour
 
     private void TouchCell(Vector3 pos)
     {
+        HexCell cell = GetCell(pos);
+        cell.CellColor = TouchColor;
+        Refresh();
+
+        //Debug.Log("touched at " + coord.X + "," + coord.Y);
+    }
+
+    public HexCell GetCell(Vector3 pos)
+    {
         pos = transform.InverseTransformPoint(pos);
         HexCoord coord = HexCoord.FromPosition(pos);
 
         int index = coord.X + coord.Z * _width + coord.Z / 2;
         HexCell cell = _cells[index];
-        cell.CellColor = TouchColor;
-        _hexMesh.Triangulate(_cells);
 
-        Debug.Log("touched at " + coord.X + "," + coord.Y);
+        return cell;
     }
+
+
+    public void ColorCell(Vector3 pos, Color color)
+    {
+        HexCell cell = GetCell(pos);
+        cell.CellColor = color;
+        _hexMesh.Triangulate(_cells);
+    }
+
+    public void Refresh()
+    {
+        _hexMesh.Triangulate(_cells);
+    }
+
 }

@@ -82,15 +82,25 @@ public class HexMesh : MonoBehaviour
 
         Vector3 v3 = v1 + birdge;
         Vector3 v4 = v2 + birdge;
-        AddQuad(v1, v2, v3, v4);
 
         HexCell neiborCell = cell.GetNeiborCell(dir) ?? cell;
+        HexCell nextNeighbor = cell.GetNeiborCell(dir.Next())??cell ;
+
+        Debug.Log(neiborCell.Elevation);
+
+        v3.y = v4.y = neiborCell.Elevation * HexMatrics.ElevationStep;
+
+        AddQuad(v1, v2, v3, v4);
+
+        
         AddQuadColor(cell.CellColor, neiborCell.CellColor);
 
-        HexCell nextNeighbor = cell.GetNeiborCell(dir.Next());
+        
         if(dir <= HexDirection.E && nextNeighbor != null)
         {
-            AddTriangle(v2, v4, v2 + HexMatrics.GetBridge(dir.Next()));
+            Vector3 v5 = v2 + HexMatrics.GetBridge(dir.Next());
+            v5.y = nextNeighbor.Elevation * HexMatrics.ElevationStep;
+            AddTriangle(v2, v4, v5);
             AddTriangleColor(cell.CellColor, neiborCell.CellColor, nextNeighbor.CellColor);
         }
 

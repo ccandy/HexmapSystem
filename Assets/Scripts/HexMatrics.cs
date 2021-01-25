@@ -10,6 +10,13 @@ public static class HexMatrics
     public const float SoildFactor = 0.75f;
     public const float BlendFactor = 1 - SoildFactor;
 
+    public const float ElevationStep = 5f;
+
+    public const float TerracesPerSlop = 2;
+    public const float TerracesPerSteps = TerracesPerSlop * 2 + 1;
+
+    public const float HorizontalTerraceStepSize = 1 / TerracesPerSteps;
+
     public static Vector3[] Corners =
     {
         new Vector3(0,0, OutterRad),
@@ -50,6 +57,17 @@ public static class HexMatrics
 
         return bridge;
     }
+
+    public static Vector3 TerraceLerp(Vector3 a, Vector3 b, int step)
+    {
+        float h = step * HexMatrics.HorizontalTerraceStepSize;
+        a.x += (b.x - a.x) * h;
+        b.z += (b.z - a.z) * h;
+
+        return a;
+        
+    }
+
 
 
 }
