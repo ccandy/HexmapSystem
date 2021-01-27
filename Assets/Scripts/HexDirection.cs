@@ -20,7 +20,8 @@ public static class HexDirectionExtensions
         return dir == HexDirection.NE ? HexDirection.NW : (dir - 1);
     }
 
-    public static HexDirection Next(this HexDirection dir)
+    public static HexDirection Next
+        (this HexDirection dir)
     {
         return dir == HexDirection.NW ? HexDirection.NE : (dir + 1);
     }

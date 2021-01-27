@@ -57,16 +57,10 @@ public class HexMesh : MonoBehaviour
             Vector3 v2 = center + HexMatrics.GetSecondSoildCorner(d);
             AddTriangle(center, v1, v2);
             AddTriangleColor(cell.CellColor);
-
-
             if(d <= HexDirection.SE)
             {
                 TriangulateConnection(v1, v2, d, cell);
             }
-
-            
-            
-
         }
     }
 
@@ -86,17 +80,17 @@ public class HexMesh : MonoBehaviour
         HexCell neiborCell = cell.GetNeiborCell(dir) ?? cell;
         HexCell nextNeighbor = cell.GetNeiborCell(dir.Next())??cell ;
 
-        Debug.Log(neiborCell.Elevation);
+        //Debug.Log(neiborCell.Elevation);
 
         v3.y = v4.y = neiborCell.Elevation * HexMatrics.ElevationStep;
 
-        AddQuad(v1, v2, v3, v4);
-
-        
+        /*AddQuad(v1, v2, v3, v4);
         AddQuadColor(cell.CellColor, neiborCell.CellColor);
+        */
 
-        
-        if(dir <= HexDirection.E && nextNeighbor != null)
+        TriangulateEdgeTerrace(cell, v1, v2, neiborCell, v3, v4);
+
+        if (dir <= HexDirection.E && nextNeighbor != null)
         {
             Vector3 v5 = v2 + HexMatrics.GetBridge(dir.Next());
             v5.y = nextNeighbor.Elevation * HexMatrics.ElevationStep;
@@ -106,7 +100,39 @@ public class HexMesh : MonoBehaviour
 
     }
 
+    private void TriangulateEdgeTerrace(
+        HexCell c1, Vector3 beginLeft, Vector3 beginRight,
+        HexCell c2, Vector3 endLeft, Vector3 endRight)
+    {
 
+        Vector3 v3 = HexMatrics.TerraceLerp(beginLeft, endLeft, 1);
+        Vector3 v4 = HexMatrics.TerraceLerp(beginRight, endRight, 1);
+        Color color2 = HexMatrics.TerraceLerpColor(c1.CellColor, c2.CellColor, 1);
+
+
+        AddQuad(beginLeft, beginRight, v3, v4);
+        AddQuadColor(c1.CellColor, color2);
+
+        for(int n = 2; n < HexMatrics.TerracesSteps; n++)
+        {
+            Vector3 v1 = v3;
+            Vector3 v2 = v4;
+            Color color1 = color2;
+
+            v3 = HexMatrics.TerraceLerp(beginLeft, endLeft, n);
+            v4 = HexMatrics.TerraceLerp(beginRight, endRight, n);
+            color2 = HexMatrics.TerraceLerpColor(c1.CellColor, c2.CellColor, n);
+
+            AddQuad(v1, v2, v3, v4);
+            AddQuadColor(color1, color2);
+        }
+
+
+
+        AddQuad(v3, v4, endLeft, endRight);
+        AddQuadColor(color2, c2.CellColor);
+
+    }
     private void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
     {
         int indexCount = _vertics.Count;

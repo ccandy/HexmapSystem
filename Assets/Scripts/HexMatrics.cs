@@ -13,9 +13,10 @@ public static class HexMatrics
     public const float ElevationStep = 5f;
 
     public const float TerracesPerSlop = 2;
-    public const float TerracesPerSteps = TerracesPerSlop * 2 + 1;
+    public const float TerracesSteps = TerracesPerSlop * 2 + 1;
 
-    public const float HorizontalTerraceStepSize = 1 / TerracesPerSteps;
+    public const float HorizontalTerraceStepSize = 1 / TerracesSteps;
+    public const float VerticalTerraceStepSize = 1 / (TerracesPerSlop + 1);
 
     public static Vector3[] Corners =
     {
@@ -62,12 +63,38 @@ public static class HexMatrics
     {
         float h = step * HexMatrics.HorizontalTerraceStepSize;
         a.x += (b.x - a.x) * h;
-        b.z += (b.z - a.z) * h;
+        a.z += (b.z - a.z) * h;
 
+        //float v = step * HexMatrics.VerticalTerraceStepSize;
+        float v = ((step + 1) / 2) * HexMatrics.VerticalTerraceStepSize;
+        a.y += (b.y - a.y) * v;
         return a;
         
     }
 
+    public static Color TerraceLerpColor(Color c1, Color c2, int step)
+    {
+        float h = step * HexMatrics.HorizontalTerraceStepSize;
+        return Color.Lerp(c1, c2, h);
+    }
+
+    public static HexEdgeType GetEdgeType(int e1, int e2)
+    {
+        if(e1 == e2)
+        {
+            return HexEdgeType.Flat;
+        }
+
+        int delta = e1 - e2;
+        if(delta == -1 || delta == 1)
+        {
+            return HexEdgeType.Slope;
+        }
+        return HexEdgeType.Cliff;
+
+    }
+
+    
 
 
 }

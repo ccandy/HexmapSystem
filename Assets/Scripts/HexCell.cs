@@ -65,4 +65,12 @@ public class HexCell : MonoBehaviour
         c.NeiborCells[(int)oppsiteDir] = this;
     }
 
+
+    public HexEdgeType GetEdgeType(HexDirection dir)
+    {
+        HexCell neibor = NeiborCells[(int)dir];
+
+        return HexMatrics.GetEdgeType(_elevation, neibor.Elevation);
+    }
+
 }
